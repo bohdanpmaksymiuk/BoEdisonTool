@@ -63,21 +63,43 @@ void digitalWrite(int iopin,int valueiopin)
 	//usleep(1000);
 }
 
-void printPin(int iopin)
+int printPin(int iopin)
 {
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(iopin);
-    if (gpio == NULL) { fprintf(stderr, "Pin not valid\n"); exit(1); }
-    int v = mraa_gpio_read(gpio);
-    mraa_gpio_dir_t dir = MRAA_GPIO_IN;
-    mraa_result_t r =mraa_gpio_read_dir(gpio, &dir);
-    if (r != MRAA_SUCCESS)  { mraa_result_print(r); exit(1); }
-    char* dir1= "";
-    if (dir==MRAA_GPIO_IN)      {dir1="I";}
-    if (dir==MRAA_GPIO_OUT)     {dir1="O";}
-    if (dir==MRAA_GPIO_OUT_HIGH)    {dir1="OH";}
-    if (dir==MRAA_GPIO_OUT_LOW)     {dir1="OL";}
-    printf(" %4d \e[90;1m%6s\e[0m \e[90;1m%-2s\e[0m (\e[32;1m%d\e[0m)",iopin,mraa_get_pin_name(iopin),dir1,v);
+    if (gpio == NULL)
+	{
+		//printf(" %4d \e[90;1m%6s\e[0m \e[90;1m%-2s\e[0m (\e[32;1m%s\e[0m)",iopin,"","","-");
+		return 0;
+	} else
+	{
+    	int v = mraa_gpio_read(gpio);
+    	mraa_gpio_dir_t dir = MRAA_GPIO_IN;
+    	mraa_result_t r =mraa_gpio_read_dir(gpio, &dir);
+	    if (r != MRAA_SUCCESS)  { mraa_result_print(r); exit(1); }
+    	char* dir1= "";
+    	if (dir==MRAA_GPIO_IN)      {dir1="I";}
+    	if (dir==MRAA_GPIO_OUT)     {dir1="O";}
+    	if (dir==MRAA_GPIO_OUT_HIGH)    {dir1="OH";}
+    	if (dir==MRAA_GPIO_OUT_LOW)     {dir1="OL";}
+    	printf(" %4d \e[90;1m%6s\e[0m \e[90;1m%-2s\e[0m (\e[32;1m%d\e[0m)",iopin,mraa_get_pin_name(iopin),dir1,v);
+		return 1;
+	}
+}
+
+void printAllPins()
+{
+	int i=0;
+	int j=0;
+	while (i<500)
+	{
+		j = j+ printPin(i);
+		if (j >= 4)
+		{
+			printf("\n"); j = 0;
+		}
+		i=i+1;
+	}
 }
 
 void printPins()

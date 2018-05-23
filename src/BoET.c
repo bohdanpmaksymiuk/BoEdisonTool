@@ -52,30 +52,31 @@ int main(int argc, char * argv[])
 			int valueiopin = strtol(argv[3], NULL, 10);
 			writePin(iopin,valueiopin);
 		} else
-        if (strcmp(argv[1],"-R") == 0)
-        {
+	        if (strcmp(argv[1],"-R") == 0)
+        	{
 			if (argc==2) 
 			{
 				printPins();
 			} else
 			{
-	            int iopin = strtol(argv[2], NULL, 10);
-        	    printf("%d\n",readPin(iopin,false));
+	            		int iopin = strtol(argv[2], NULL, 10);
+        	    		printf("%d\n",readPin(iopin,false));
 			}
-        } else
+        	} else
 		if (strcmp(argv[1],"-r") == 0)
-        {
-        	if (argc==2)
-            {
-            	printPins();
-            } else
-            {
-            	int iopin = strtol(argv[2], NULL, 10);
-                printf("%d\n",readPin(iopin,true));
-            }
-        } else
+        	{
+        		if (argc==2)
+            		{
+            			printPins();
+            		} else
+            	{
+            		int iopin = strtol(argv[2], NULL, 10);
+                	printf("%d\n",readPin(iopin,true));
+            	}
+        	} else
 		{
-			boMAX_TEST();
+			//boMAX_TEST();
+			printAllPins();
 		}
 /*
 		{

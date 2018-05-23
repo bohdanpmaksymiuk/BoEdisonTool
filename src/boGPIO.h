@@ -8,7 +8,7 @@ float readAPin(int iopin);
 int readPin(int iopin,bool sc);
 void writePin(int iopin,int valueiopin);
 void digitalWrite(int iopin,int valueiopin);
-
+void printAllPins();
 void printPins();
 
 #endif
