@@ -18,7 +18,7 @@ float readAPin(int iopin)
 {
     mraa_aio_context aio;
     aio = mraa_aio_init(iopin);
-    if (aio == NULL) { fprintf(stderr,"Pin not valid\n"); exit(1); }
+    if (aio == NULL) { fprintf(stderr,"Pin %d not valid\n",iopin); exit(1); }
     float value = mraa_aio_read_float(aio);
     mraa_aio_close(aio);
     return value;
@@ -31,7 +31,7 @@ int readPin(int iopin,bool sc)
     gpio = mraa_gpio_init(iopin);
 	if (gpio == NULL)
     {
-    	fprintf(stderr, "Pin not valid\n");
+    	fprintf(stderr, "Pin %d not valid\n",iopin);
         exit(1);
     }
     if (sc)
@@ -47,7 +47,7 @@ void writePin(int iopin,int valueiopin)
 {
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(iopin);
-    if (gpio == NULL) { fprintf(stderr, "Pin not valid\n"); exit(1); }
+    if (gpio == NULL) { fprintf(stderr,"Pin %d not valid\n",iopin); exit(1); }
     mraa_result_t r = mraa_gpio_dir(gpio, MRAA_GPIO_OUT);
     if (r != MRAA_SUCCESS)  { mraa_result_print(r); exit(1); }
     r = mraa_gpio_mode(gpio, MRAA_GPIO_STRONG);
@@ -58,9 +58,12 @@ void writePin(int iopin,int valueiopin)
 
 void digitalWrite(int iopin,int valueiopin)
 {
-	//usleep(1000);
 	writePin(iopin,valueiopin);
-	//usleep(1000);
+}
+
+void bsleep(int s)
+{
+	usleep(s*1000);
 }
 
 int printPin(int iopin)
@@ -76,7 +79,7 @@ int printPin(int iopin)
     	int v = mraa_gpio_read(gpio);
     	mraa_gpio_dir_t dir = MRAA_GPIO_IN;
     	mraa_result_t r =mraa_gpio_read_dir(gpio, &dir);
-	    if (r != MRAA_SUCCESS)  { mraa_result_print(r); exit(1); }
+	    if (r != MRAA_SUCCESS)  { mraa_result_print(r); return 0; }
     	char* dir1= "";
     	if (dir==MRAA_GPIO_IN)      {dir1="I";}
     	if (dir==MRAA_GPIO_OUT)     {dir1="O";}

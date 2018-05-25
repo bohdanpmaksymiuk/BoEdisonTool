@@ -11,9 +11,9 @@
 
 typedef unsigned char byte;
 
-int DIN=0;// 	= 14;
-int CS=0;// 		= 15;
-int CLK=0;// 	= 16;
+int DIN 	= 7;
+int CS 		= 4;
+int CLK 	= 2;
 int maxInUse = 4;    //change this variable to set how many MAX7219's you'll use
 
  // define max7219 registers
@@ -31,13 +31,6 @@ byte max7219_reg_intensity   = 0x0a;
 byte max7219_reg_scanLimit   = 0x0b;
 byte max7219_reg_shutdown    = 0x0c;
 byte max7219_reg_displayTest = 0x0f;
-
-//void setupMax(int din,int cs,int clk)
-//{
-//	DIN = din;
-//	CS = cs;
-//	CLK = clk;
-//}
 
 void putByte(byte data)
 {
@@ -83,8 +76,8 @@ void maxAll(byte reg, byte col)
  		putByte(reg);  // specify register
   		putByte(col);//((data & 0x01) * 256) + data >> 1); // put data
     }
+	digitalWrite(CS,LOW);
   	digitalWrite(CS,HIGH);
-	usleep(250); //time it takes for the register to "take"
 }
 
 void maxOne(byte maxNr, byte reg, byte col)
@@ -105,61 +98,47 @@ void maxOne(byte maxNr, byte reg, byte col)
 	digitalWrite(CS,HIGH);
 }
 
-void initMax (int din,int cs,int clk)
+void setupMax ()
 {
-	DIN = din;
-	CS = cs;
-	CLK= clk;
-
 	digitalWrite(CLK, LOW);
-	digitalWrite(DIN,LOW);
-	digitalWrite(CLK,LOW);
 	maxAll(max7219_reg_shutdown, 0x01);    // 0x01 not in shutdown mode
   	maxAll(max7219_reg_scanLimit, 0x07);   // 0x07
   	maxAll(max7219_reg_decodeMode, 0x00);  // using an led matrix (not digits)
   	maxAll(max7219_reg_shutdown, 0x01);    // 0x01 not in shutdown mode
   	maxAll(max7219_reg_displayTest, 0x00); // no display test
-	maxAll(max7219_reg_intensity, 0x00 & 0x0f);    // the first 0x0f is the value you can set
+
+	maxAll(max7219_reg_intensity, 0x01 & 0x0f);    // the first 0x0f is the value you can set 	
 	byte e = 0;
 	for (e=1; e<=8; e++)
 	{
      	maxAll(e,0);
   	}
+  	maxAll(max7219_reg_intensity, 0x01 & 0x0f);    // the first 0x0f is the value you can set
+                                                 // range: 0x00 to 0x0f
+	//maxAll(max7219_reg_displayTest, 0x00);
 }
 
 void boMAX_TEST()
 {
 	printf("setup MAx \n");
-  	initMax(14,15,16);
+  	setupMax();
 
 	printf("Setup Complete \n");
   	//if you use more then one max7219 the second one should look like this
-	int i = 1;
+	/*
 	while (1)
 	{
-		maxAll(max7219_reg_shutdown, 0x01);
-  		maxOne(i,1,170);                       //  + - - - - - - -
-  		maxOne(i,2,85);                       //  - + - - - - - -
-  		maxOne(i,3,170);                       //  - - + - - - - -
-  		maxOne(i,4,85);                       //  - - - + - - - -
-  		maxOne(i,5,170);                      //  - - - - + - - -
-  		maxOne(i,6,85);                      //  - - - - - + - -
-  		maxOne(i,7,170);                      //  - - - - - - + -
-  		maxOne(i,8,85);                     //  - - - - - - - +
-		bsleep(500);
-		//maxAll(max7219_reg_shutdown, 0x01);
-		i = i +1;
-		if (i ==5) { i = 0; }
-		maxOne(i,1,128);
-		maxOne(i,2,64);
-		maxOne(i,3,32);
-		maxOne(i,4,16);
-		maxOne(i,5,8);
-		maxOne(i,6,4);
-		maxOne(i,7,2);
-		maxOne(i,8,1);
-		bsleep(500);
-		printf("loop /n");
-//usleep(20000);
+  		maxOne(1,1,1);                       //  + - - - - - - -
+  		maxOne(1,2,2);                       //  - + - - - - - -
+  		maxOne(1,3,4);                       //  - - + - - - - -
+  		maxOne(1,4,8);                       //  - - - + - - - -
+  		maxOne(1,5,16);                      //  - - - - + - - -
+  		maxOne(1,6,32);                      //  - - - - - + - -
+  		maxOne(1,7,64);                      //  - - - - - - + -
+  		maxOne(1,8,128);                     //  - - - - - - - +
+		printf("loop");
+  		bsleep(1000);
+  		//usleep(20000);
 	}
+*/
 }

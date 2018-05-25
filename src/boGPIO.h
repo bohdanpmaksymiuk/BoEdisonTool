@@ -9,6 +9,7 @@ int readPin(int iopin,bool sc);
 void writePin(int iopin,int valueiopin);
 void digitalWrite(int iopin,int valueiopin);
 void printAllPins();
+void bsleep(int s);
 void printPins();
 
 #endif

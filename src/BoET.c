@@ -35,25 +35,21 @@ int main(int argc, char * argv[])
 		if (strcmp(argv[1],"-v") == 0)
 		{
 			printf("%.1f\n",getVoltage()/1000);
-		} else
-		if (strcmp(argv[1],"-p") == 0)
+		} else if (strcmp(argv[1],"-p") == 0)
 		{
 			printf("%.1f\n",getBatteryPercentage());
 
-		} else
-		if (strcmp(argv[1],"-t") == 0)
+		} else if (strcmp(argv[1],"-t") == 0)
 		{
 			printf("%i\n",getTemp(file));
-		} else
-		if (strcmp(argv[1],"-w") == 0)
+		} else if (strcmp(argv[1],"-w") == 0)
 		{
 
 			int iopin = strtol(argv[2], NULL, 10);
 			int valueiopin = strtol(argv[3], NULL, 10);
 			writePin(iopin,valueiopin);
-		} else
-	        if (strcmp(argv[1],"-R") == 0)
-        	{
+		} else if (strcmp(argv[1],"-R") == 0)
+       	{
 			if (argc==2) 
 			{
 				printPins();
@@ -62,39 +58,36 @@ int main(int argc, char * argv[])
 	            		int iopin = strtol(argv[2], NULL, 10);
         	    		printf("%d\n",readPin(iopin,false));
 			}
+       	} else if (strcmp(argv[1],"-r") == 0)
+        {
+        	if (argc==2)
+           	{
+        		printPins();
         	} else
-		if (strcmp(argv[1],"-r") == 0)
-        	{
-        		if (argc==2)
-            		{
-            			printPins();
-            		} else
-            	{
-            		int iopin = strtol(argv[2], NULL, 10);
-                	printf("%d\n",readPin(iopin,true));
-            	}
-        	} else
+          	{
+            	int iopin = strtol(argv[2], NULL, 10);
+               	printf("%d\n",readPin(iopin,true));
+        	}
+        } else if (strcmp(argv[1],"-m")==0)
 		{
-			//boMAX_TEST();
-			printAllPins();
-		}
-/*
-		{
-			while (1)
+			if  (argc==5)
 			{
-				Triplet a_bias = {0}, g_bias = {0}, m_bias = {0};
-				FTriplet gyro, mag, acc;
-				FTriplet m_scale = {1,1,1};
-				init_gyro(file, GYRO_SCALE_245DPS); init_mag(file, MAG_SCALE_2GS); init_acc(file, ACCEL_SCALE_2G);
-				read_gyro (file, g_bias, GYRO_SCALE_245DPS, &gyro);
-			    read_mag (file, m_bias, m_scale, MAG_SCALE_2GS, &mag);
-			    read_acc (file, a_bias, ACCEL_SCALE_2G, &acc);
-			    printf ("gyro: %9.2f %9.2f %9.2f | ", gyro.x, gyro.y, gyro.z);
-			    printf ("mag:  %9.2f %9.2f %9.2f | ", (mag.x)*1000, (mag.y)*1000, (mag.z)*1000);
-			    printf ("acc:  %9.2f %9.2f %9.2f\n", (acc.x)*1000, (acc.y)*1000, (acc.z)*1000);
-				usleep(500000);
+					initMax(strtol(argv[2], NULL, 10),strtol(argv[3], NULL, 10),strtol(argv[4], NULL, 10));
 			}
-		}*/
+			initMax (14,15,16);
+ 			maxOne(1,1,170);                       //  + - - - - - - -
+	   	  	maxOne(1,2,85);                       //  - + - - - - - -
+	      	maxOne(1,3,170);                       //  - - + - - - - -
+    	   	maxOne(1,4,85);                       //  - - - + - - - -
+        	maxOne(1,5,170);                      //  - - - - + - - -
+  	    	maxOne(1,6,85);                      //  - - - - - + - -
+        	maxOne(1,7,170);                      //  - - - - - - + -
+        	maxOne(1,8,85);                     //  - - - - - - - +
+		} else
+		{
+			boMAX_TEST();
+					//printAllPins();
+		}
 	} else
 	{
 		printf("BoET v1.0\n");
@@ -109,7 +102,7 @@ int main(int argc, char * argv[])
 		printf("-R <pin>              : Read 1 or 0 from a pin, dont change pin to read only\n");
 		printf("-R                    : Show all pin values, dont change pins to read only \n");
 		printf("-r \n");
-		printPins();
+		printAllPins();
 	}
 	return 0;
 }

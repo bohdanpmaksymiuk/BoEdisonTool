@@ -2,7 +2,8 @@
 TARGET := BoET
 OBJ1 := boMAX.o BoET.o boGPIO.o boVoltage.o edison-9dof-i2c.o
 
-C_FLAGS := -g -Wall -Wextra
+C_FLAGS := -g -Wall -Wextra 
+#-std=c99
 CC 		:= gcc
 RM 		:= rm
 LINKFLAGS := -lm -rdynamic /usr/local/lib/libmraa.so.1.7.0
