@@ -130,7 +130,7 @@ void initMax (int din,int cs,int clk)
 void boMAX_TEST()
 {
 	printf("setup MAx \n");
-  	initMax(14,15,16);
+  	initMax(16,15,14);
 
 	printf("Setup Complete \n");
   	//if you use more then one max7219 the second one should look like this

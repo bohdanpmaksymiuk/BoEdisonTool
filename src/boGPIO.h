@@ -11,6 +11,6 @@ void digitalWrite(int iopin,int valueiopin);
 void printAllPins();
 void bsleep(int s);
 void printPins();
-
+void CNCtest();
 #endif
 

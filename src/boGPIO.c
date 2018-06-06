@@ -43,6 +43,63 @@ int readPin(int iopin,bool sc)
     return v;
 }
 
+void CNCtest()
+{
+	mraa_gpio_context stepx = mraa_gpio_init(1);
+	mraa_gpio_context dirx  = mraa_gpio_init(2);
+	mraa_gpio_context stepy = mraa_gpio_init(3);
+	mraa_gpio_context diry  = mraa_gpio_init(4);
+	mraa_gpio_context stepz = mraa_gpio_init(5);
+	mraa_gpio_context dirz  = mraa_gpio_init(6);
+
+	mraa_gpio_dir(stepx, MRAA_GPIO_OUT);
+	mraa_gpio_dir(dirx, MRAA_GPIO_OUT);
+	mraa_gpio_dir(stepy, MRAA_GPIO_OUT);
+	mraa_gpio_dir(diry, MRAA_GPIO_OUT);
+	mraa_gpio_dir(stepz, MRAA_GPIO_OUT);
+	mraa_gpio_dir(dirz, MRAA_GPIO_OUT);
+
+	mraa_gpio_mode(stepx, MRAA_GPIO_STRONG);
+	mraa_gpio_mode(dirx, MRAA_GPIO_STRONG);
+	mraa_gpio_mode(stepy, MRAA_GPIO_STRONG);	
+	mraa_gpio_mode(diry, MRAA_GPIO_STRONG);
+	mraa_gpio_mode(stepz, MRAA_GPIO_STRONG);
+	mraa_gpio_mode(dirz, MRAA_GPIO_STRONG);
+
+	mraa_gpio_write(stepx,0); mraa_gpio_write(dirx, 0);
+	mraa_gpio_write(stepy,0); mraa_gpio_write(diry, 0);
+	mraa_gpio_write(stepz,0); mraa_gpio_write(dirz, 0);
+
+	printf("Init Complete \n"); sleep(1);
+	int i = 0;
+	int dir1 = 0;
+	int waitmS = 600; //500;
+	while (1)
+	{
+		printf("I   : %3d ",100-i);
+		printf(  "Step: 0");
+
+		mraa_gpio_write(stepx,0); mraa_gpio_write(stepy,0); mraa_gpio_write(stepz,0);
+
+		usleep(waitmS);	printf(", Step: 1\n");
+
+		mraa_gpio_write(stepx,1); mraa_gpio_write(stepy,1); mraa_gpio_write(stepz,1);
+
+		usleep(waitmS);
+
+		if (i >= 100)
+		{
+			if (dir1 == 0) { dir1 = 1; } else { dir1 = 0; }
+			mraa_gpio_write(dirx,dir1); mraa_gpio_write(diry,dir1);mraa_gpio_write(dirz,dir1); 
+
+			printf("DIR : %d\n",dir1); usleep(waitmS);
+			i =0;
+			//sleep(1);
+		}
+		i++;
+	}
+}
+
 void writePin(int iopin,int valueiopin)
 {
     mraa_gpio_context gpio;

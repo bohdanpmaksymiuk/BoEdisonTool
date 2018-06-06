@@ -34,15 +34,15 @@ int init_device (const char* device_name)
   uint8_t g_id, xm_id;
 
   if ((file = open(device_name, O_RDWR)) < 0) {
-    fprintf(stderr, "Failed to open the i2c bus '%s'\n", device_name);
+    //fprintf(stderr, "Failed to open the i2c bus '%s'\n", device_name);
     return 0;
   }
 
   read_byte (file, G_ADDRESS, WHO_AM_I_G, &g_id);
   read_byte (file, XM_ADDRESS, WHO_AM_I_XM, &xm_id);
   if (g_id != 0xD4 || xm_id != 0x49) {
-    fprintf(stderr, "Device id mismatch: Got %02x/%02x, expected %02x/%02x\n",
-            g_id, xm_id, 0xD4, 0x49);
+    //fprintf(stderr, "Device id mismatch: Got %02x/%02x, expected %02x/%02x\n",
+    //        g_id, xm_id, 0xD4, 0x49);
     close (file);
     return 0;
   }

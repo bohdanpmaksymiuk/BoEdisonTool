@@ -1,4 +1,4 @@
-#include <stdio.h>
+																					#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -24,7 +24,10 @@ int main(int argc, char * argv[])
 
 	// ................................
 	int file=init_device(I2C_DEV_NAME);
-
+	if (file ==0) 
+	{
+		// No 9dof
+	}
 	// ................................
 
 	mraa_init();
@@ -86,7 +89,8 @@ int main(int argc, char * argv[])
 		} else
 		{
 			boMAX_TEST();
-					//printAllPins();
+			//printAllPins();
+			CNCtest();
 		}
 	} else
 	{
